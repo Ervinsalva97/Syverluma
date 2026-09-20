@@ -1,0 +1,45 @@
+name: Tarea Programada - Reporte Diario CFO
+
+on:
+  schedule:
+    # Se ejecuta todos los dias a las 13:00 UTC (08:00 AM hora de Peru)
+    - cron: '0 13 * * *'
+  workflow_dispatch:
+
+jobs:
+  reporte-diario:
+    name: Balance Diario de Finanzas
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Descargar codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependencias
+        run: |
+          cd orquestador
+          python -m pip install --upgrade pip
+          pip install crewai crewai-tools python-dotenv
+
+      - name: Ejecutar Auditoria Financiera Diaria
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL_NAME: "gemini/gemini-2.5-flash"
+        run: |
+          cd orquestador
+          python main.py --area finanzas --mision "Generar balance matutino diario: verificar ingresos de ventas, pedidos activos y estado del flujo de caja de eDark Store y la matriz."
+
+      - name: Guardar reporte matutino en el repositorio
+        run: |
+          git config --global user.name "Syverluma CFO Bot"
+          git config --global user.email "cfo@syverluma.com"
+          git add orquestador/entregables/
+          git commit -m "chore(finanzas): balance diario automatico de las 8am [skip ci]" || echo "Sin cambios"
+          git push

@@ -1,0 +1,60 @@
+name: Despacho Remoto de Agentes - Syverluma
+
+on:
+  workflow_dispatch:
+    inputs:
+      area:
+        description: 'Area funcional a despachar'
+        required: true
+        type: choice
+        options:
+          - 'gerencia'
+          - 'ti'
+          - 'ventas'
+          - 'finanzas'
+          - 'operaciones'
+          - 'junta'
+        default: 'junta'
+      mision:
+        description: 'Describe la mision u objetivo empresarial'
+        required: true
+        type: string
+        default: 'Evaluar el estado del catalogo y plan de expansion'
+
+jobs:
+  ejecutar-agente:
+    name: Ejecucion de Mision Empresarial
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Descargar codigo del repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependencias del Orquestador
+        run: |
+          cd orquestador
+          python -m pip install --upgrade pip
+          pip install crewai crewai-tools python-dotenv
+
+      - name: Ejecutar Mision con Gemini
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL_NAME: "gemini/gemini-2.5-flash"
+        run: |
+          cd orquestador
+          python main.py --area "${{ github.event.inputs.area }}" --mision "${{ github.event.inputs.mision }}"
+
+      - name: Guardar y commitear entregable en el repositorio
+        run: |
+          git config --global user.name "Syverluma Agent Bot"
+          git config --global user.email "bot@syverluma.com"
+          git add orquestador/entregables/
+          git commit -m "docs(entregable): nuevo reporte generado por agente ${{ github.event.inputs.area }} [skip ci]" || echo "No changes to commit"
+          git push

@@ -1,0 +1,58 @@
+# ==============================================================================
+# 1. Regla Verum - Seguridad & Credenciales Estrictamente Excluidas
+# ==============================================================================
+.env
+.env.*
+*.env
+!.env.example
+
+# Credenciales de Google Cloud y Firebase
+*firebase*.json
+*credential*.json
+*credencial*.json
+service-account*.json
+*.pem
+*.key
+
+# ==============================================================================
+# 2. Python & Entornos Virtuales (Django & Orquestador)
+# ==============================================================================
+venv/
+.venv/
+env/
+ENV/
+*/venv/
+*/.venv/
+__pycache__/
+*/__pycache__/
+*.py[cod]
+*$py.class
+*.sqlite3
+media/
+staticfiles/
+
+# ==============================================================================
+# 3. Node.js & Frontend (Next.js)
+# ==============================================================================
+node_modules/
+*/node_modules/
+.next/
+*/.next/
+out/
+build/
+dist/
+.vercel
+
+# ==============================================================================
+# 4. Logs, Sistema Operativo & Editores
+# ==============================================================================
+*.log
+*.zip
+*.tar.gz
+*.rar
+npm-debug.log*
+yarn-debug.log*
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

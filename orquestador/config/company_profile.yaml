@@ -1,0 +1,43 @@
+empresa:
+  nombre: "Corporación Syverluma S.A.C."
+  modelo_negocio: "Matriz Centralizada y Hub de Adopción de Emprendimientos (Multi-Tenant E-commerce & Management)"
+  mision: "Proveer una plataforma integral y matriz de control en la nube que impulse y adopte múltiples emprendimientos (e-commerce tecnológico, retail, servicios y productos personalizados), unificando tecnología moderna (Next.js 16, Django REST, Cloud Firestore) y orquestación con agentes de IA."
+  vision: "Convertir a Syverluma en la corporación líder y aceleradora tecnológica de emprendimientos en Perú y la región."
+  cultura_seguridad: "Regla Verum: Máxima protección de credenciales, variables de entorno, aislamiento de datos por emprendimiento y tokenización segura."
+
+lineas_de_negocio:
+  - nombre: "eDark Store"
+    sector: "Hardware, Componentes, Periféricos y Armado de PC Personalizada"
+    modelo: "E-commerce Tech B2C / B2B y Soporte Técnico"
+  - nombre: "Syverluma Gifts"
+    sector: "Regalos Corporativos y Cajas Personalizadas"
+    modelo: "Retail a Medida y Merchandising"
+  - nombre: "Servicios TI & Cloud"
+    sector: "Consultoría Tecnológica y Mantenimiento"
+    modelo: "Servicios Profesionales B2B"
+
+departamentos:
+  gerencia:
+    lider: "Director Ejecutivo (CEO)"
+    mision: "Definir la estrategia corporativa, la hoja de ruta de adopción de nuevos emprendimientos, alianzas comerciales y la orquestación general de la mesa directiva."
+    entregables: ["Criterios de admisión para nuevos emprendimientos", "Roadmap trimestral (OKRs)", "Aprobación de inversiones y despliegues"]
+
+  ti_sistemas:
+    lider: "Director de Tecnología (CTO & Lead Engineer)"
+    mision: "Construir y mantener la Matriz Syverluma: Monorepo Next.js 16, Django REST Framework, Cloud Firestore, Firebase Authentication y arquitectura multi-emprendimiento."
+    entregables: ["Código en producción", "Endpoints CRUD y Reportes", "Alineamiento con DESIGN.md", "Despliegue Docker y Cloud Run"]
+
+  ventas_comercial:
+    lider: "Director Comercial y Crecimiento (CCO)"
+    mision: "Diseñar el embudo de ventas, paquetes de afiliación para que nuevos emprendedores vendan en la matriz Syverluma, comisiones por transacción y campañas de captación de clientes."
+    entregables: ["Modelo de comisiones por emprendimiento", "Páginas de aterrizaje y catálogo de ventas", "Estrategia de prospección B2B"]
+
+  contabilidad_finanzas:
+    lider: "Director Financiero (CFO)"
+    mision: "Controlar el flujo de caja, liquidación de ventas por emprendimiento, comisiones de pasarelas de pago (Culqi, Yape, Plin, MercadoPago), y monitoreo de costos cloud en Google Cloud y Firebase."
+    entregables: ["Reportes consolidados de ingresos y ventas en Soles (S/)", "Balance de costos de infraestructura", "Políticas de precios y liquidación a afiliados"]
+
+  administracion_operaciones:
+    lider: "Director de Operaciones (COO)"
+    mision: "Estandarizar la logística de envíos y estados de órdenes (pendiente, confirmado, enviado, entregado), contratos de afiliación para nuevos emprendimientos, políticas de privacidad y manuales operativos (SOPs)."
+    entregables: ["Flujo logístico estandarizado de pedidos", "Términos y condiciones de la matriz", "Manual de bienvenida para nuevos negocios"]
