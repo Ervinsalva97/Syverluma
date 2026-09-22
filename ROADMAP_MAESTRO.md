@@ -86,6 +86,8 @@
 
 ---
 
-## 🔑 3. ¿Cómo retomar la sesión mañana?
-Cuando abras una nueva sesión de chat, simplemente escribe:
+## 🔑 3. ¿Cómo retomar la sesión después de reiniciar la laptop?
+Cuando enciendas tu laptop y abras una nueva sesión de chat con Antigravity, simplemente escribe:
 > *"Hola, revisa el archivo D:\Syverluma\ROADMAP_MAESTRO.md y continuemos desde el Paso 1 de la siguiente sesión."*
+
+Todo el código, configuraciones de Docker, PWA y Git están guardados, probados y respaldados en la nube. ¡Listo para reiniciar!
