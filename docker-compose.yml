@@ -1,0 +1,50 @@
+services:
+  # ==============================================================================
+  # Backend: Django REST Framework + Cloud Firestore
+  # ==============================================================================
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: syverluma-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=True
+      - ALLOWED_HOSTS=*
+      - CORS_ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
+      - FIREBASE_CREDENTIALS_PATH=/app/firebase-credenciales.json
+    volumes:
+      # Montaje seguro de credenciales de Firebase en runtime (Regla Verum)
+      - ./backend/firebase-credenciales.json:/app/firebase-credenciales.json:ro
+      - ./backend/db.sqlite3:/app/db.sqlite3
+    networks:
+      - syverluma-network
+
+  # ==============================================================================
+  # Frontend: Next.js 16 + Tailwind CSS (PWA)
+  # ==============================================================================
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_API_URL=http://localhost:8000
+    container_name: syverluma-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - HOSTNAME=0.0.0.0
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+    networks:
+      - syverluma-network
+
+networks:
+  syverluma-network:
+    driver: bridge

@@ -37,12 +37,14 @@ export default function DashboardPage() {
     emprendimientos: ['Syverluma Central', 'eDark Store'],
   });
 
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+
   const [backendStatus, setBackendStatus] = useState<string>('Conectando con Django...');
 
   // 1. Cargar Métricas Globales en Tiempo Real
   const fetchMetrics = useCallback(async () => {
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/dashboard/metricas/');
+      const res = await fetch(`${API_BASE_URL}/api/dashboard/metricas/`);
       if (res.ok) {
         const data = await res.json();
         if (data.metricas) {
@@ -54,13 +56,13 @@ export default function DashboardPage() {
       console.warn('Fallo al obtener métricas consolidadas:', err);
       setBackendStatus('Modo Offline / Servidor Inactivo');
     }
-  }, []);
+  }, [API_BASE_URL]);
 
   // 2. Cargar Catálogo de Productos
   const fetchProducts = useCallback(async () => {
     setLoadingProducts(true);
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/productos/', {
+      const res = await fetch(`${API_BASE_URL}/api/productos/`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       });
@@ -75,13 +77,13 @@ export default function DashboardPage() {
     } finally {
       setLoadingProducts(false);
     }
-  }, []);
+  }, [API_BASE_URL]);
 
   // 3. Cargar Pedidos / Ventas
   const fetchOrders = useCallback(async () => {
     setLoadingOrders(true);
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/ventas/');
+      const res = await fetch(`${API_BASE_URL}/api/ventas/`);
       if (res.ok) {
         const data = await res.json();
         setOrders(data.ventas || []);
@@ -91,7 +93,7 @@ export default function DashboardPage() {
     } finally {
       setLoadingOrders(false);
     }
-  }, []);
+  }, [API_BASE_URL]);
 
   const refreshAll = useCallback(async () => {
     await Promise.all([fetchMetrics(), fetchProducts(), fetchOrders()]);
@@ -103,7 +105,7 @@ export default function DashboardPage() {
 
   // Manejadores CRUD de Productos
   const handleCreateProduct = async (formData: Partial<ProductItem>) => {
-    const res = await fetch('http://127.0.0.1:8000/api/productos/', {
+    const res = await fetch(`${API_BASE_URL}/api/productos/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),
@@ -117,7 +119,7 @@ export default function DashboardPage() {
   };
 
   const handleUpdateProduct = async (id: string, formData: Partial<ProductItem>) => {
-    const res = await fetch(`http://127.0.0.1:8000/api/productos/${id}/`, {
+    const res = await fetch(`${API_BASE_URL}/api/productos/${id}/`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),
@@ -131,7 +133,7 @@ export default function DashboardPage() {
   };
 
   const handleDeleteProduct = async (id: string) => {
-    const res = await fetch(`http://127.0.0.1:8000/api/productos/${id}/`, {
+    const res = await fetch(`${API_BASE_URL}/api/productos/${id}/`, {
       method: 'DELETE',
     });
 
@@ -144,7 +146,7 @@ export default function DashboardPage() {
 
   // Manejador de Actualización de Pedidos
   const handleUpdateOrderStatus = async (id: string, newStatus: string) => {
-    const res = await fetch(`http://127.0.0.1:8000/api/ventas/${id}/`, {
+    const res = await fetch(`${API_BASE_URL}/api/ventas/${id}/`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ estado: newStatus }),

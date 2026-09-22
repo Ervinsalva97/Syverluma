@@ -11,16 +11,23 @@ logger = logging.getLogger(__name__)
 
 # Inicializar Firebase Admin SDK si aún no existe
 if not firebase_admin._apps:
-    # Apuntar al archivo JSON ubicado en la raíz del backend
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    cred_path = os.path.join(base_dir, 'firebase-credenciales.json')
+    env_cred = os.environ.get('FIREBASE_CREDENTIALS_PATH')
+    if env_cred and os.path.exists(env_cred):
+        cred_path = env_cred
+    elif os.path.exists(os.path.join(base_dir, 'firebase-credenciales.json')):
+        cred_path = os.path.join(base_dir, 'firebase-credenciales.json')
+    elif os.path.exists(os.path.join(base_dir, 'firebase-credentials.json')):
+        cred_path = os.path.join(base_dir, 'firebase-credentials.json')
+    else:
+        cred_path = os.path.join(base_dir, 'firebase-credenciales.json')
         
     try:
         cred = credentials.Certificate(cred_path)
         firebase_admin.initialize_app(cred)
-        logger.info("Firebase Admin inicializado correctamente en Django.")
+        logger.info(f"Firebase Admin inicializado correctamente con: {cred_path}")
     except Exception as e:
-        logger.error(f"Fallo al inicializar Firebase Admin: {e}")
+        logger.error(f"Fallo al inicializar Firebase Admin desde {cred_path}: {e}")
 
 
 # ==========================================
